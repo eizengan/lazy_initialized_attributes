@@ -9,3 +9,13 @@
 
 # rspec failure tracking
 .rspec_status
+
+# built gems
+lazy_initialized_attrigutes*.gem
+
+# lock should be allowed to vary
+Gemfile.lock
+
+# support multiple versions
+.ruby-version
+.tool-versions
