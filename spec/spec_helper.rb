@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "lazy_initialized_attributes"
 
 RSpec.configure do |config|

@@ -2,6 +2,6 @@
 
 RSpec.describe LazyInitializedAttributes do
   it "has a version number" do
-    expect(LazyInitializedAttributes::VERSION).not_to be nil
+    expect(LazyInitializedAttributes::VERSION).not_to be_nil
   end
 end

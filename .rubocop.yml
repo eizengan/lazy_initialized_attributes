@@ -1,13 +1,23 @@
+require:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
 AllCops:
   TargetRubyVersion: 2.6
 
+  # opt-in new cops
+  NewCops: enable
+
+# overrides
+Style/Documentation:
+  Enabled: false
+
+Style/MutableConstant:
+  EnforcedStyle: strict
+
 Style/StringLiterals:
-  Enabled: true
   EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
-  Enabled: true
   EnforcedStyle: double_quotes
-
-Layout/LineLength:
-  Max: 120
