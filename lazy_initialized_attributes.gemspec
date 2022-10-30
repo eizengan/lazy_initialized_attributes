@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.executables += spec.files.grep(%r{\A#{spec.bindir}/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = [">= 2.6", "< 4"]
+  spec.required_ruby_version = [">= 2.7", "< 4"]
 
   spec.add_development_dependency "pry-byebug", "~> 3.0"
   spec.add_development_dependency "rake", "~> 13.0"
