@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "bundler/setup"
+require "pry-byebug"
 require "lazy_initialized_attributes"
 
 RSpec.configure do |config|
