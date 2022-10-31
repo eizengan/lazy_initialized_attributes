@@ -73,6 +73,24 @@ RSpec.describe LazyLoadAttributes do
         test_class.lazy_attr_reader(:superclass_attribute) { "redefined attribute" }
       end.to change { test_class.new.superclass_attribute }.from("superclass attribute").to("redefined attribute")
     end
+
+    context "when defining an attribute with a nonstandard name" do
+      it "raises a NameError" do
+        expect { test_class.lazy_attr_reader(:"Bad-ATTR") { nil } }.to raise_error(
+          NameError,
+          "bad attribute name 'Bad-ATTR' (use a-z, 0-9, _)"
+        )
+      end
+    end
+
+    context "when defining an attribute without an initializer" do
+      it "raises an ArgumentError" do
+        expect { test_class.lazy_attr_reader(:no_initializer) }.to raise_error(
+          ArgumentError,
+          "no initializer block given in lazy-loaded attribute definition"
+        )
+      end
+    end
   end
 
   describe "#<attribute>" do

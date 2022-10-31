@@ -4,6 +4,8 @@ require "set"
 require_relative "lazy_load_attributes/version"
 
 module LazyLoadAttributes
+  ATTR_NAME_REGEX = /\A[a-z0-9_]+\z/.freeze
+
   def self.extended(base)
     base.extend(ClassMethods)
     base.include(InstanceMethods)
@@ -20,7 +22,10 @@ module LazyLoadAttributes
                .reduce(&:|)
     end
 
-    def lazy_attr_reader(attribute, &initializer)
+    def lazy_attr_reader(attribute, &initializer) # rubocop:disable Metrics/MethodLength
+      raise NameError, "bad attribute name '#{attribute}' (use a-z, 0-9, _)" unless attribute.match? ATTR_NAME_REGEX
+      raise ArgumentError, "no initializer block given in lazy-loaded attribute definition" if initializer.nil?
+
       lazy_attributes.add(attribute)
 
       define_method(attribute) do
