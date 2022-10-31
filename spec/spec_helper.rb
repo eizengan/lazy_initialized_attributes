@@ -2,7 +2,7 @@
 
 require "bundler/setup"
 require "pry-byebug"
-require "lazy_initialized_attributes"
+require "lazy_load_attributes"
 
 RSpec.configure do |config|
   # Show detailed output when only one file is run

@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
-require_relative "lib/lazy_initialized_attributes/version"
+require_relative "lib/lazy_load_attributes/version"
 
 Gem::Specification.new do |spec|
   raise "RubyGems 2.0 or newer is required to protect against public gem pushes." unless spec.respond_to?(:metadata)
 
-  spec.name = "lazy_initialized_attributes"
-  spec.version = LazyInitializedAttributes::VERSION
+  spec.name = "lazy_load_attributes"
+  spec.version = LazyLoadAttributes::VERSION
   spec.authors = ["Nate Eizenga"]
   spec.email = ["eizengan@gmail.com"]
 
-  spec.summary = "Lazy initialization for class attributes."
+  spec.summary = "Lazy loading for class attributes."
   spec.description = <<~DESCRIPTION
-    A simple DSL for adding cached, lazy-initialized attributes to your classes. Transparent handling of inheritence,
-    overrides, etc.
+    A simple DSL for adding cached, lazy-loaded attributes to your classes. Transparent handling of inheritence,
+    redefinition, etc.
   DESCRIPTION
-  spec.homepage = "https://github.com/eizengan/lazy_initialized_attributes"
+  spec.homepage = "https://github.com/eizengan/lazy_load_attributes"
   spec.license = "MIT"
 
   spec.metadata["homepage_uri"] = spec.homepage
@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.files = %w[
     CHANGELOG.md
     CODE_OF_CONDUCT.md
-    lazy_initialized_attributes.gemspec
+    lazy_load_attributes.gemspec
     README.md
   ] + Dir["lib/**/*"]
   spec.bindir = "bin"

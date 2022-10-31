@@ -2,5 +2,5 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in lazy_initialized_attributes.gemspec
+# Specify your gem's dependencies in lazy_load_attributes.gemspec
 gemspec

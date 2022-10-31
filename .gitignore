@@ -11,7 +11,7 @@
 .rspec_status
 
 # built gems
-lazy_initialized_attributes*.gem
+lazy_load_attributes*.gem
 
 # lock should be allowed to vary
 Gemfile.lock

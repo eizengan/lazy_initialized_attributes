@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
 require "set"
-require_relative "lazy_initialized_attributes/version"
+require_relative "lazy_load_attributes/version"
 
-module LazyInitializedAttributes
+module LazyLoadAttributes
   def self.extended(base)
     base.extend(ClassMethods)
     base.include(InstanceMethods)
   end
 
   module ClassMethods
-    def lazy_initialized_attributes
-      @lazy_initialized_attributes ||= Set.new
+    def lazy_attributes
+      @lazy_attributes ||= Set.new
     end
 
-    def all_lazy_initialized_attributes
-      ancestors.select { |ancestor| ancestor.respond_to?(:lazy_initialized_attributes) }
-               .map(&:lazy_initialized_attributes)
+    def all_lazy_attributes
+      ancestors.select { |ancestor| ancestor.singleton_class.include?(::LazyLoadAttributes) }
+               .map(&:lazy_attributes)
                .reduce(&:|)
     end
 
-    def lazy_initialize_attribute(attribute, &initializer)
-      lazy_initialized_attributes.add(attribute)
+    def lazy_attr_reader(attribute, &initializer)
+      lazy_attributes.add(attribute)
 
       define_method(attribute) do
         instance_variable = :"@#{attribute}"
@@ -35,8 +35,8 @@ module LazyInitializedAttributes
   end
 
   module InstanceMethods
-    def eager_initialize!
-      self.class.all_lazy_initialized_attributes.each { |attribute| send(attribute) }
+    def eager_load_attributes!
+      self.class.all_lazy_attributes.each { |attribute| send(attribute) }
     end
   end
 end
