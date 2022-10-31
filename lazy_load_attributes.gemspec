@@ -10,10 +10,10 @@ Gem::Specification.new do |spec|
   spec.authors = ["Nate Eizenga"]
   spec.email = ["eizengan@gmail.com"]
 
-  spec.summary = "Lazy loading for class attributes."
+  spec.summary = "Concise definition of lazy-loaded class attributes"
   spec.description = <<~DESCRIPTION
-    A simple DSL for adding cached, lazy-loaded attributes to your classes. Transparent handling of inheritence,
-    redefinition, etc.
+    Simple "Ruby core"-inspired syntactic sugar for defining cached, lazy-loaded attributes which intuitively handle
+    inheritence and attribute redefinition.
   DESCRIPTION
   spec.homepage = "https://github.com/eizengan/lazy_load_attributes"
   spec.license = "MIT"

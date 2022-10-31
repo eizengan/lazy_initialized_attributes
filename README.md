@@ -1,6 +1,6 @@
 # LazyLoadAttributes
 
-A simple DSL for adding cached, lazy-load attributes to your classes. Transparent handling of inheritence, redefinition, etc.
+Simple "Ruby core"-inspired syntactic sugar for defining cached, lazy-loaded attributes which intuitively handle inheritence and attribute redefinition.
 
 ## Installation
 
