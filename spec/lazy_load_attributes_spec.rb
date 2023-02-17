@@ -1,5 +1,47 @@
 # frozen_string_literal: true
 
+RSpec.shared_examples "it creates a lazy-loaded attr_reader" do |method|
+  before do
+    test_superclass.send(method, :superclass_attribute) { "superclass attribute" }
+    test_class.send(method, :class_attribute) { "class attribute" }
+  end
+
+  it "defines a method to get the attribute" do
+    expect do
+      test_class.send(method, :another_attribute) { "class attribute" }
+    end.to change { test_class.new.respond_to?(:another_attribute) }.from(false).to(true)
+  end
+
+  it "enables definition on both classes and superclasses", aggregate_failures: true do
+    expect(test_class.new).to respond_to(:superclass_attribute)
+    expect(test_class.new).to respond_to(:class_attribute)
+  end
+
+  it "overrides existing definitions on a superclass" do
+    expect do
+      test_class.send(method, :superclass_attribute) { "redefined attribute" }
+    end.to change { test_class.new.superclass_attribute }.from("superclass attribute").to("redefined attribute")
+  end
+
+  context "when defining an attribute with a nonstandard name" do
+    it "raises a NameError" do
+      expect { test_class.send(method, :"Bad-ATTR") { nil } }.to raise_error(
+        NameError,
+        "bad attribute name 'Bad-ATTR' (use a-z, 0-9, _)"
+      )
+    end
+  end
+
+  context "when defining an attribute without an initializer" do
+    it "raises an ArgumentError" do
+      expect { test_class.send(method, :no_initializer) }.to raise_error(
+        ArgumentError,
+        "no initializer block given in lazy-loaded attribute definition"
+      )
+    end
+  end
+end
+
 RSpec.describe LazyLoadAttributes do
   let(:test_superclass) do
     Class.new do
@@ -52,45 +94,7 @@ RSpec.describe LazyLoadAttributes do
   end
 
   describe ".lazy_attr_reader" do
-    before do
-      test_superclass.lazy_attr_reader(:superclass_attribute) { "superclass attribute" }
-      test_class.lazy_attr_reader(:class_attribute) { "class attribute" }
-    end
-
-    it "defines a method to get the attribute" do
-      expect do
-        test_class.lazy_attr_reader(:another_attribute) { "class attribute" }
-      end.to change { test_class.new.respond_to?(:another_attribute) }.from(false).to(true)
-    end
-
-    it "enables definition on both classes and superclasses", aggregate_failures: true do
-      expect(test_class.new).to respond_to(:superclass_attribute)
-      expect(test_class.new).to respond_to(:class_attribute)
-    end
-
-    it "overrides existing definitions on a superclass" do
-      expect do
-        test_class.lazy_attr_reader(:superclass_attribute) { "redefined attribute" }
-      end.to change { test_class.new.superclass_attribute }.from("superclass attribute").to("redefined attribute")
-    end
-
-    context "when defining an attribute with a nonstandard name" do
-      it "raises a NameError" do
-        expect { test_class.lazy_attr_reader(:"Bad-ATTR") { nil } }.to raise_error(
-          NameError,
-          "bad attribute name 'Bad-ATTR' (use a-z, 0-9, _)"
-        )
-      end
-    end
-
-    context "when defining an attribute without an initializer" do
-      it "raises an ArgumentError" do
-        expect { test_class.lazy_attr_reader(:no_initializer) }.to raise_error(
-          ArgumentError,
-          "no initializer block given in lazy-loaded attribute definition"
-        )
-      end
-    end
+    it_behaves_like "it creates a lazy-loaded attr_reader", :lazy_attr_reader
   end
 
   describe "#<attribute>" do
