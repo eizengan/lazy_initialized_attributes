@@ -1,4 +1,7 @@
 ## [Unreleased Changes]
+
+## 0.2.1
+
 - .lazy_attr_reader and .lazy_attr_accessor return the same value as their normal counterparts in Ruby 3
 
 ## 0.2.0
