@@ -167,6 +167,12 @@ RSpec.describe LazyLoadAttributes do
       test_class.lazy_attr_reader(:class_attribute) { "class attribute" }
       allow(instance).to receive(:superclass_attribute)
       allow(instance).to receive(:class_attribute)
+
+      test_class.lazy_attr_reader(:already_loaded_attribute) { "loaded attribute" }
+      instance.already_loaded_attribute
+
+      test_class.lazy_attr_accessor(:manually_set_attribute) { "unused" }
+      instance.manually_set_attribute = "set attribute"
     end
 
     it "calls each attribute to load it", aggregate_failures: true do
@@ -177,8 +183,12 @@ RSpec.describe LazyLoadAttributes do
       expect(instance).to have_received(:class_attribute).once
     end
 
-    it "returns a symbol for each attribute loaded" do
+    it "returns a symbol for each attribute which was eager loaded" do
       expect(eager_load_attributes!).to contain_exactly :superclass_attribute, :class_attribute
+    end
+
+    it "does not return attributes which were not eager loaded" do
+      expect(eager_load_attributes!).not_to include :already_loaded_attribute, :manually_set_attribute
     end
   end
 end

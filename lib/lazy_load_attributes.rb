@@ -48,7 +48,9 @@ module LazyLoadAttributes
 
   module InstanceMethods
     def eager_load_attributes!
-      self.class.all_lazy_attributes.each { |attribute| send(attribute) }
+      self.class.all_lazy_attributes
+          .reject { |attribute| instance_variable_defined?(:"@#{attribute}") }
+          .each { |attribute| send(attribute) }
     end
   end
 end
