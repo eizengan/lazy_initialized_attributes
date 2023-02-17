@@ -22,6 +22,11 @@ module LazyLoadAttributes
                .reduce(&:|)
     end
 
+    def lazy_attr_accessor(attribute, &initializer)
+      lazy_attr_reader(attribute, &initializer)
+      attr_writer attribute
+    end
+
     def lazy_attr_reader(attribute, &initializer) # rubocop:disable Metrics/MethodLength
       raise NameError, "bad attribute name '#{attribute}' (use a-z, 0-9, _)" unless attribute.match? ATTR_NAME_REGEX
       raise ArgumentError, "no initializer block given in lazy-loaded attribute definition" if initializer.nil?

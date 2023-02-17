@@ -97,6 +97,16 @@ RSpec.describe LazyLoadAttributes do
     it_behaves_like "it creates a lazy-loaded attr_reader", :lazy_attr_reader
   end
 
+  describe ".lazy_attr_accessor" do
+    it_behaves_like "it creates a lazy-loaded attr_reader", :lazy_attr_accessor
+
+    it "defines a method to set the attribute" do
+      expect do
+        test_class.lazy_attr_accessor(:another_attribute) { "class attribute" }
+      end.to change { test_class.new.respond_to?(:another_attribute=) }.from(false).to(true)
+    end
+  end
+
   describe "#<attribute>" do
     let(:instance) { test_class.new }
 
