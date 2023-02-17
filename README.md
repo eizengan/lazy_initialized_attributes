@@ -21,6 +21,8 @@ Or install it yourself as:
 ## Usage
 
 The class-level `lazy_attr_reader` method defines a lazy-loaded attribute.
+The class-level `lazy_attr_accessor` method additionally defines a setter for the lazy-loaded attribute.
+The instance-level `eager_load_attributes!` method eager loads all lazy-loaded attributes which haven't been loaded.
 
 A simple use-case:
 
