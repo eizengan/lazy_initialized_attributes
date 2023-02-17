@@ -4,6 +4,7 @@ require "set"
 require_relative "lazy_load_attributes/version"
 
 module LazyLoadAttributes
+  RUBY_3 = Gem::Version.new("3.0.0").freeze
   ATTR_NAME_REGEX = /\A[a-z0-9_]+\z/.freeze
 
   def self.extended(base)
@@ -23,8 +24,14 @@ module LazyLoadAttributes
     end
 
     def lazy_attr_accessor(attribute, &initializer)
-      lazy_attr_reader(attribute, &initializer)
-      attr_writer attribute
+      accessor = [
+        *lazy_attr_reader(attribute, &initializer),
+        *attr_writer(attribute)
+      ]
+
+      return nil if Gem.ruby_version < RUBY_3
+
+      accessor
     end
 
     def lazy_attr_reader(attribute, &initializer) # rubocop:disable Metrics/MethodLength
@@ -42,7 +49,9 @@ module LazyLoadAttributes
         end
       end
 
-      nil
+      return nil if Gem.ruby_version < RUBY_3
+
+      [attribute]
     end
   end
 

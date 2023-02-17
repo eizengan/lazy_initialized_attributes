@@ -98,7 +98,7 @@ RSpec.describe LazyLoadAttributes do
 
     it "returns the same thing as attr_reader" do
       lazy_return = test_class.lazy_attr_reader(:lazy_attribute) { "class attribute" }
-      regular_return = test_class.attr_reader(:normal_attribute)
+      regular_return = test_class.attr_reader(:lazy_attribute)
       expect(lazy_return).to eq regular_return
     end
   end
@@ -114,7 +114,7 @@ RSpec.describe LazyLoadAttributes do
 
     it "returns the same thing as attr_accessor" do
       lazy_return = test_class.lazy_attr_accessor(:lazy_attribute) { "class attribute" }
-      regular_return = test_class.attr_accessor(:normal_attribute)
+      regular_return = test_class.attr_accessor(:lazy_attribute)
       expect(lazy_return).to eq regular_return
     end
   end
