@@ -41,6 +41,8 @@ module LazyLoadAttributes
           instance_variable_set(instance_variable, instance_eval(&initializer))
         end
       end
+
+      nil
     end
   end
 
